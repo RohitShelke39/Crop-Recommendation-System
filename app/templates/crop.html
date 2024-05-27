@@ -1,0 +1,223 @@
+{% extends 'layout.html' %} {% block body %}
+
+<style>
+
+
+html body {
+      background-color: rgb(153, 181, 168);
+
+      
+  }
+  
+</style>
+
+<!--Form Section-->
+<br /><br />
+<h2 style="text-align: center; margin: 0px; color: black">
+  <b>Find out the most suitable crop to grow in your farm</b>
+</h2>
+<br />
+
+<div
+  style="
+    width: 350px;
+    height: 50rem;
+    margin: 0px auto;
+    color: black;
+    border-radius: 25px;
+    padding: 10px 10px;
+  "
+>
+  <form method="POST" action="{{ url_for('crop_prediction') }}">
+    <div class="form-group">
+      <label for="Nitrogen" style="font-size: 17px"><b>Nitrogen(in mg)</b></label>
+      <input
+        type="number"
+        class="form-control"
+        id="Nitrogen"
+        name="nitrogen"
+        placeholder="Enter the value (example:50)"
+        style="font-weight: bold"
+        required
+      />
+    </div>
+    <div class="form-group">
+      <label for="Phosphorous" style="font-size: 17px"
+        ><b>Phosphorous(in mg)</b></label
+      >
+      <input
+        type="number"
+        class="form-control"
+        id="Phosphorous"
+        name="phosphorous"
+        placeholder="Enter the value (example:50)"
+        style="font-weight: bold"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="Pottasium" style="font-size: 17px"><b>Pottasium(in mg)</b></label>
+      <input
+        type="number"
+        class="form-control"
+        id="Pottasium"
+        name="pottasium"
+        placeholder="Enter the value (example:50)"
+        style="font-weight: bold"
+        required
+      />
+    </div>
+    <div class="form-group">
+      <label for="ph" style="font-size: 17px"><b>ph level</b></label>
+      <input
+        type="number"
+        step="0.01"
+        class="form-control"
+        id="ph"
+        name="ph"
+        placeholder="Enter the value"
+        style="font-weight: bold"
+        required
+      />
+    </div>
+    <!-- <div class="form-group">
+      <label for="Rainfall" style="font-size: 17px"><b>Rainfall (in mm)</b></label>
+      <input
+        type="number"
+        step="0.01"
+        class="form-control"
+        id="Rainfall"
+        name="rainfall"
+        placeholder="Enter the value"
+        style="font-weight: bold"
+        required
+      />
+    </div> -->
+    <div class="form-group">
+      <label for="State" style="font-size: 17px "><b>State</b></label>
+      <select
+        onchange="print_city('state', this.selectedIndex);"
+        id="sts"
+        name="stt"
+        class="form-control"
+        style="font-weight: bold; color: black;"
+        
+        required
+      ></select>
+      <br />
+      <label for="City" style="font-size: 17px"><b>City</b></label>
+      <select
+        id="state"
+        class="form-control"
+        name="city"
+        style="font-weight: bold; color: black;"
+        onchange="updateRainfall();"
+        required
+      ></select>
+    </br>
+      <div class="form-group">
+        <label for="Rainfall" style="font-size: 17px"><b>Rainfall (in mm)</b></label>
+        <input
+          type="number"
+          step="0.01"
+          class="form-control"
+          id="Rainfall"
+          name="rainfall"
+          placeholder="Enter the value"
+          style="font-weight: bold"
+          required
+        />
+      </div>
+
+      <script language="javascript">
+        print_state("sts");
+      </script>
+    </div>
+
+    <div class="d-flex justify-content-center">
+      <button
+        type="submit"
+        class="btn btn-info"
+        style="color: black; font-weight: bold; width: 130px; height:50px; border-radius:12px; font-size: 21px;"
+      >
+        Predict
+      </button>
+    </div>
+  </form>
+</div>
+
+
+<script>
+  var citiesData = [
+    { "city_name": "Mumbai", "rainfall_mm": 2213 },
+    { "city_name": "Delhi", "rainfall_mm": 700 },
+    { "city_name": "Bangalore", "rainfall_mm": 920 },
+    { "city_name": "Kolkata", "rainfall_mm": 1650 },
+    { "city_name": "Belgaum", "rainfall_mm": 85 },
+    { "city_name": "Chennai", "rainfall_mm": 1200 },
+    { "city_name": "Hubli", "rainfall_mm": 104 },
+    { "city_name": "Mangalore", "rainfall_mm": 359 },
+    { "city_name": "Gulbarga", "rainfall_mm": 471 },
+    { "city_name": "Davanagere", "rainfall_mm": 125 },
+    { "city_name": "Ballary", "rainfall_mm": 394 },
+    { "city_name": "Shimoga", "rainfall_mm": 308 },
+    { "city_name": "Tumkur", "rainfall_mm": 624 },
+    { "city_name": "Bidar", "rainfall_mm": 533 },
+    { "city_name": "Hassan", "rainfall_mm": 526 },
+    { "city_name": "Raichur", "rainfall_mm": 225 },
+    { "city_name": "Gadag", "rainfall_mm": 93 },
+    { "city_name": "Chitradurga", "rainfall_mm": 134 },
+    { "city_name": "Kolar", "rainfall_mm": 694 },
+    { "city_name": "Udupi", "rainfall_mm": 450 },
+    { "city_name": "Bagalkot", "rainfall_mm": 156 },
+    { "city_name": "Bijapur", "rainfall_mm": 199 },
+    { "city_name": "Shimoga", "rainfall_mm": 314 },
+    { "city_name": "Dharwad", "rainfall_mm": 93 },
+    { "city_name": "Gulbarga", "rainfall_mm": 471 },
+    { "city_name": "Raichur", "rainfall_mm": 225 },
+    { "city_name": "Mandya", "rainfall_mm": 712 },
+    { "city_name": "Chikmagalur", "rainfall_mm": 532 },
+    { "city_name": "Chikkaballapur", "rainfall_mm": 694 },
+    { "city_name": "Gangavati", "rainfall_mm": 292 },
+    { "city_name": "Hospet", "rainfall_mm": 197 },
+    { "city_name": "Jamkhandi", "rainfall_mm": 103 },
+    { "city_name": "Koppal", "rainfall_mm": 212 },
+    { "city_name": "Mandya", "rainfall_mm": 712 },
+    { "city_name": "Karwar", "rainfall_mm": 285 },
+    { "city_name": "Mysore", "rainfall_mm": 677 },
+    { "city_name": "Ranebennur", "rainfall_mm": 98 },
+    { "city_name": "Haveri", "rainfall_mm": 129 },
+    { "city_name": "Chamrajnagar", "rainfall_mm": 102 },
+    { "city_name": "Kundapur", "rainfall_mm": 450 },
+    { "city_name": "Nanjangud", "rainfall_mm": 584 },
+    { "city_name": "Gokak", "rainfall_mm": 103 },
+    { "city_name": "Sagar", "rainfall_mm": 308 },
+    { "city_name": "Kumta", "rainfall_mm": 273 },
+    { "city_name": "Chintamani", "rainfall_mm": 694 },
+    { "city_name": "Sindhanur", "rainfall_mm": 212 },
+    { "city_name": "Arsikere", "rainfall_mm": 512 },
+    { "city_name": "Sirsi", "rainfall_mm": 463 },
+    { "city_name": "Sira", "rainfall_mm": 624 },
+    { "city_name": "Nelamangala", "rainfall_mm": 694 },
+    { "city_name": "Beltangady", "rainfall_mm": 359 }
+  ];
+  function updateRainfall() {
+
+    // alert("HI");
+    var cityInput = document.getElementById("state").value.trim();
+    var rainfallTextbox = document.getElementById("Rainfall");
+    var cityData = citiesData.find(function (city) {
+      return city.city_name.toLowerCase() === cityInput.toLowerCase();
+    });
+
+    if (cityData) {
+      rainfallTextbox.value = cityData.rainfall_mm;
+    } else {
+      rainfallTextbox.value = "";
+    }
+  }
+</script>
+<!-- Form section -->
+
+{% endblock %}

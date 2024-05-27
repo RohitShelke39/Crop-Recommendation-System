@@ -1,0 +1,30 @@
+{% extends 'layout.html' %} {% block body %}
+
+<style>
+  .mt-0 {
+  margin-top: 50 !important;
+}
+</style>
+
+
+<div class="container py-2 mx-auto my-50 h-10 " style="margin: 12rem;">
+  <div class="row">
+    <div class="col-12">
+      <div class="card card-body" style="justify-content: center;">
+        <h1 class="text-center"><b><i>YOU CAN GROW THESE CROPS IN YOUR FARM: </i></b></h1>
+        <h3 class="text-center"><b>🌾🌾🌿🌿 </b></h3>
+      </div>
+    </div>
+    {% for crop in predictions %}
+      <div class="col-sm-6 py-2 py-md-3">
+        <div class="card card-body" style="justify-content: center;">
+          <h1 class="text-center"><i>{{ crop[0] }}</i></h1>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+
+
+{% endblock %}
